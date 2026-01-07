@@ -18,25 +18,21 @@ type ProjectCardProps = {
   isVisible: boolean;
 };
 
-/* ================= PROJECT DATA ================= */
+/* ================= PROJECT DATA (FIXED IMAGE PATHS) ================= */
 const projects: Project[] = [
   {
     title: "Bag E-Commerce Web App (LuxCarry)",
     description:
       "A full-stack MERN eCommerce application for bags with JWT authentication, cookies, admin panel structure, email messaging, and fully responsive UI.",
     tags: [
-      "Ejs",
+      "EJS",
       "Node.js",
-      "Express,js",
+      "Express.js",
       "MongoDB",
-      "Mongoose-Connect",
-      "JWT authentication",
+      "JWT",
       "Tailwind CSS",
-      "postman",
-      "cookies-parser"
-
     ],
-    image: "/public/img1.png",
+    image: "/img1.png", // ✅ FIXED
     liveUrl: "#",
     githubUrl: "https://github.com/vansh-boss/LuxCarry",
     featured: true,
@@ -44,18 +40,15 @@ const projects: Project[] = [
   {
     title: "Professional Portfolio Website",
     description:
-      "A modern, responsive portfolio built using React + javaScript with About, Skills, Education, Projects, and Contact sections.",
+      "A modern, responsive portfolio built using React with About, Skills, Projects, and Contact sections.",
     tags: [
-      "HtMl 5",
-      "javascript",
-      "React.js",
-      "javaScript",
-      "React Router",
+      "HTML5",
+      "JavaScript",
+      "React",
       "Tailwind CSS",
-      "Custom CSS",
-      "responsive design"
+      "Responsive UI",
     ],
-    image: "/public/img2.png",
+    image: "/img2.png", // ✅ FIXED
     liveUrl: "#",
     githubUrl: "https://github.com/vansh-boss/professional-portfolio-design",
     featured: true,
@@ -80,6 +73,7 @@ const ProjectCard = ({ project, index, isVisible }: ProjectCardProps) => {
         <img
           src={project.image}
           alt={project.title}
+          loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
@@ -150,7 +144,7 @@ const Projects = () => {
 
           <p className="text-muted-foreground max-w-2xl mx-auto mt-4">
             These projects showcase my MERN stack skills, real-world features,
-            and responsive UI development as a BCA student.
+            and responsive UI development.
           </p>
         </div>
 

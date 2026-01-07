@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { Mail, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const ref = useRef(null);
+  const formRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,7 +25,28 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setSending(true);
+
+    emailjs
+        .sendForm(
+        "service_yn1kmmg",   // Replace with your EmailJS Service ID
+        "template_og94fxj",                // Replace with your EmailJS Template ID
+        formRef.current,
+        "XtOaqWy0Qi_Zcf7Fu"    // Replace with your EmailJS Public Key
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          alert("Message sent successfully!");
+          setFormData({ name: "", email: "", message: "" });
+          setSending(false);
+        },
+        (error) => {
+          console.log(error.text);
+          alert("Failed to send message, please try again.");
+          setSending(false);
+        }
+      );
   };
 
   return (
@@ -99,6 +123,7 @@ const Contact = () => {
 
           {/* form */}
           <form
+            ref={formRef}
             onSubmit={handleSubmit}
             className={`lg:col-span-3 card-glass p-8 transition-all duration-700 ${
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
@@ -109,6 +134,7 @@ const Contact = () => {
                 <label className="text-sm font-medium mb-2 block">Name</label>
                 <input
                   type="text"
+                  name="name"
                   value={formData.name}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
@@ -123,6 +149,7 @@ const Contact = () => {
                 <label className="text-sm font-medium mb-2 block">Email</label>
                 <input
                   type="email"
+                  name="email"
                   value={formData.email}
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
@@ -137,6 +164,7 @@ const Contact = () => {
             <div className="mb-6">
               <label className="text-sm font-medium mb-2 block">Message</label>
               <textarea
+                name="message"
                 rows={5}
                 value={formData.message}
                 onChange={(e) =>
@@ -150,12 +178,52 @@ const Contact = () => {
 
             <button
               type="submit"
+              disabled={sending}
               className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-primary text-primary-foreground font-semibold transition hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02]"
             >
               <Send size={18} />
-              Send Message
+              {sending ? "Sending..." : "Send Message"}
             </button>
           </form>
+        </div>
+
+        {/* Social + Copyright */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-12">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} Vansh Pro. All rights reserved.
+          </p>
+         
+              
+            
+         <div className="flex gap-4">
+  <a
+    href="https://github.com/vansh-boss"   // ← GitHub profile link
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-muted-foreground hover:text-primary transition-colors"
+  >
+    <Github size={18} />
+  </a>
+
+  <a
+    href="https://linkedin.com/in/panchalvansh59"  // ← LinkedIn profile link
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-muted-foreground hover:text-primary transition-colors"
+  >
+    <Linkedin size={18} />
+  </a>
+
+  <a
+    href="https://x.com/?lang=en-in"  // ← Twitter link (replace if needed)
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-muted-foreground hover:text-primary transition-colors"
+  >
+    <Twitter size={18} />
+  </a>
+</div>
+
         </div>
       </div>
     </section>
